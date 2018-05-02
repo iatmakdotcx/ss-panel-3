@@ -244,4 +244,18 @@ class UserController extends BaseController
         $traffic->setPath('/user/trafficlog');
         return $this->view()->assign('logs', $traffic)->display('user/trafficlog.tpl');
     }
+    public function tL($request, $response, $args)
+    {
+
+	//$pieCV = TrafficLog::groupBy('user_id')->selectRaw('user_id as name,sum(d+u) as value')->get()->toJSON();
+        $pieCV = TrafficLog::join('user','user_traffic_log.user_id','=','user.id')->groupBy('user_id')->selectRaw('port as name,sum(user_traffic_log.d+user_traffic_log.u) as value')->get()->toJSON();
+
+        $pageNum = 1;
+        if (isset($request->getQueryParams()["page"])) {
+            $pageNum = $request->getQueryParams()["page"];
+        }
+	$traffic = TrafficLog::where('user_id', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+        $traffic->setPath('/user/tl');
+        return $this->view()->assign('logs', $traffic)->assign('pieChartValue', $pieCV)->display('user/tl.tpl');
+    }
 }

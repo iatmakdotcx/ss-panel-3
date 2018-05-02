@@ -1,5 +1,12 @@
 {include file='admin/main.tpl'}
 
+
+<script>    
+	function node_trafficLog(nId){
+	   location.href='/admin/node/'+nId+'/trfl';
+	}
+</script>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -27,7 +34,7 @@
                                 <th>操作</th>
                             </tr>
                             {foreach $nodes as $node}
-                            <tr>
+                            <tr onclick='node_trafficLog({$node->id});'>
                                 <td>#{$node->id}</td>
                                 <td> {$node->name}</td>
                                 <td>{$node->method}</td>
@@ -92,7 +99,10 @@
         $("#error-close").click(function(){
             $("#msg-error").hide(100);
         });
-    })
+    });
+	function node_trafficLog(nId){
+	   location.href='/admin/node/'+nid+'/trfl';
+	}
 </script>
 
 {include file='admin/footer.tpl'}

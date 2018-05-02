@@ -119,6 +119,11 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="/user/tl">
+                        <i class="fa fa-history"></i> <span>流量统计</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="/user/edit">

@@ -49,7 +49,7 @@
                                 <th>操作</th>
                             </tr>
                             {foreach $users as $user}
-                            <tr>
+                            <tr onclick='user_trafficLog({$user->id});'>
                                 <td>#{$user->id}</td>
                                 <td><abbr title="{$user->user_name}">{$user->email}</abbr></td>
                                 <td>{$user->port}</td>
@@ -122,6 +122,10 @@
             $("#msg-error").hide(100);
         });
     //})
+	
+	function user_trafficLog(uid){
+		location.href='/admin/user/'+uid+'/trfl';
+	}
 </script>
 
 {include file='admin/footer.tpl'}

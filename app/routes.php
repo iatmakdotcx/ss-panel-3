@@ -14,7 +14,7 @@ use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
  */
 
 // config
-$debug = false;
+$debug = true;
 if (defined("DEBUG")) {
     $debug = true;
 }
@@ -52,7 +52,8 @@ $app->group('/user', function () {
     $this->post('/sspwd', 'App\Controllers\UserController:updateSsPwd');
     $this->post('/method', 'App\Controllers\UserController:updateMethod');
     $this->get('/sys', 'App\Controllers\UserController:sys');
-    $this->get('/trafficlog', 'App\Controllers\UserController:trafficLog');
+    $this->get('/trafficlog', 'App\Controllers\UserController:trafficLog');    
+    $this->get('/tl', 'App\Controllers\UserController:tL');
     $this->get('/kill', 'App\Controllers\UserController:kill');
     $this->post('/kill', 'App\Controllers\UserController:handleKill');
     $this->get('/logout', 'App\Controllers\UserController:logout');
@@ -89,6 +90,7 @@ $app->group('/admin', function () {
     $this->get('/node', 'App\Controllers\Admin\NodeController:index');
     $this->get('/node/create', 'App\Controllers\Admin\NodeController:create');
     $this->post('/node', 'App\Controllers\Admin\NodeController:add');
+	$this->get('/node/{id}/trfl', 'App\Controllers\Admin\NodeController:trfl');
     $this->get('/node/{id}/edit', 'App\Controllers\Admin\NodeController:edit');
     $this->put('/node/{id}', 'App\Controllers\Admin\NodeController:update');
     $this->delete('/node/{id}', 'App\Controllers\Admin\NodeController:delete');
@@ -97,6 +99,7 @@ $app->group('/admin', function () {
     // User Mange
     $this->get('/user', 'App\Controllers\Admin\UserController:index');
     $this->get('/user/{id}/edit', 'App\Controllers\Admin\UserController:edit');
+	$this->get('/user/{id}/trfl', 'App\Controllers\Admin\UserController:trfl');
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');
     $this->delete('/user/{id}', 'App\Controllers\Admin\UserController:delete');
     $this->get('/user/{id}/delete', 'App\Controllers\Admin\UserController:deleteGet');

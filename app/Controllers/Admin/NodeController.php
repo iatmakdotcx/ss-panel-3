@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
 use App\Models\Node;
+use App\Models\TrafficLog;
 
 class NodeController extends AdminController
 {
@@ -46,7 +47,7 @@ class NodeController extends AdminController
         $id = $args['id'];
         $node = Node::find($id);
         if ($node == null) {
-
+			return $this->redirect($response, '/admin/node');
         }
         $method = Node::getCustomerMethod();
         return $this->view()->assign('node', $node)->assign('method', $method)->display('admin/node/edit.tpl');
@@ -97,5 +98,22 @@ class NodeController extends AdminController
         $node = Node::find($id);
         $node->delete();
         return $this->redirect($response, '/admin/node');
+    }
+	public function trfl($request, $response, $args)
+    {
+        $id = $args['id'];
+        $node = Node::find($id);
+        if ($node == null) {
+			return $this->redirect($response, '/admin/node');
+        }
+		$pieCV = TrafficLog::join('user','user_traffic_log.user_id','=','user.id')->groupBy('user_id')
+		->selectRaw('port as name,sum(user_traffic_log.d+user_traffic_log.u) as value')->
+		where('user_traffic_log.node_id', $node->id)->get()->toJSON();
+		
+		$lineCV = TrafficLog::where('node_id', $node->id)
+		->selectRaw('DATE_FORMAT(FROM_UNIXTIME(log_time),\'%Y-%m-%d\') as name,sum(u+d) as value')
+		->groupBy("name")->get()->toJSON();	
+				
+        return $this->view()->assign('node', $node)->assign('pieChartValue', $pieCV)->assign('lineChartValue', $lineCV)->display('admin/node/traffic.tpl');
     }
 }

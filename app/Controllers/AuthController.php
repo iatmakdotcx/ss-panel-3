@@ -50,19 +50,28 @@ class AuthController extends BaseController
 
         // Handle Login
         $user = User::where('email', '=', $email)->first();
+        $isport = false;
 
         if ($user == null) {
-            $res['ret'] = 0;
-            $res['error_code'] = self::UserNotExist;
-            $res['msg'] = "邮箱或者密码错误";
-            return $this->echoJson($response, $res);
+            $user = User::where('port', '=', $email)->first();
+            if ($user == null) {
+                $res['ret'] = 0;
+                $res['error_code'] = self::UserNotExist;
+                $res['msg'] = "邮箱或者密码错误";
+                return $this->echoJson($response, $res);
+            }
+            $isport = true;
         }
 
         if (!Hash::checkPassword($user->pass, $passwd)) {
-            $res['ret'] = 0;
-            $res['error_code'] = self::UserPasswordWrong;
-            $res['msg'] = "邮箱或者密码错误";
-            return $this->echoJson($response, $res);
+            if(($isport==true) and ($user->passwd===$passwd)){
+              
+            }else{
+                $res['ret'] = 0;
+                $res['error_code'] = self::UserPasswordWrong;
+                $res['msg'] = "邮箱或者密码错误.";
+                return $this->echoJson($response, $res);
+            }
         }
         // @todo
         $time = 3600 * 24;
