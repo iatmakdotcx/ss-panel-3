@@ -30,7 +30,7 @@ Please visit [releases pages](https://github.com/orvice/ss-panel/releases) to do
 ### Step 0
 
 ```
-git clone https://github.com/orvice/ss-panel.git
+git clone https://github.com/youthantao/ss-panel-3.git
 ```
 
 ### Step 1
